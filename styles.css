@@ -1,0 +1,126 @@
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-tourism-icon,
+.custom-user-icon {
+  background: transparent;
+  border: none;
+}
+
+.tourism-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid white;
+  border-radius: 50%;
+  color: white;
+  font-size: 21px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.user-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: #2563eb;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.25), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.user-marker span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
+}
+
+.cluster-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #1d4ed8;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.locate-button {
+  position: absolute;
+  z-index: 1000;
+  top: 10px;
+  right: 10px;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #1f2937;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.locate-button:hover:not(:disabled) {
+  background: #eff6ff;
+}
+
+.locate-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.location-message {
+  position: absolute;
+  z-index: 1001;
+  right: 10px;
+  bottom: 20px;
+  max-width: 320px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: rgba(17, 24, 39, 0.9);
+  color: white;
+  font-size: 14px;
+}
+
+.tourist-popup h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #1d4ed8;
+}
+
+.tourist-popup p {
+  margin: 6px 0;
+}
+
+.tourist-popup a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #2563eb;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.tourist-popup a:hover {
+  text-decoration: underline;
+}
