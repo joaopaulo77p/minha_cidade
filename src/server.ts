@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -8,6 +9,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import problemRoutes from './routes/problemRoutes';
+import notificationRoutes from './routes/notificationRoutes';
 
 // Controllers
 import { getMyProblems } from './controllers/problemController';
@@ -21,6 +23,7 @@ const PORT = 3000;
 // Middlewares globais
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Arquivos enviados (fotos dos problemas)
 app.use(
@@ -42,6 +45,7 @@ app.use('/categories', authenticateToken, categoryRoutes);
 
 // Rotas de problemas urbanos
 app.use('/issues', problemRoutes);
+app.use('/notifications', notificationRoutes);
 
 // Problemas do usuário logado
 app.get(

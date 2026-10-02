@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../config/db';
+import { sendPushNotification } from '../services/pushService';
 
 
 // CRIAR PROBLEMA
@@ -13,9 +14,20 @@ export const createProblem = (req: Request, res: Response) => {
         });
     }
 
-    if (!description || latitude === undefined || longitude === undefined || !category_id) {
+    if (
+        !description ||
+        typeof latitude !== 'number' ||
+        !Number.isFinite(latitude) ||
+        latitude < -90 ||
+        latitude > 90 ||
+        typeof longitude !== 'number' ||
+        !Number.isFinite(longitude) ||
+        longitude < -180 ||
+        longitude > 180 ||
+        !category_id
+    ) {
         return res.status(400).json({
-            message: 'Descrição, localização e categoria são obrigatórios'
+            message: 'Descrição, coordenadas válidas e categoria são obrigatórios'
         });
     }
 
@@ -219,6 +231,25 @@ export const updateProblemStatus = (req: Request, res: Response) => {
                     message: 'Problema não encontrado'
                 });
             }
+
+            db.get(
+                'SELECT user_id, description FROM problems WHERE id = ?',
+                [id],
+                (lookupError, problem: { user_id: number; description: string } | undefined) => {
+                    if (lookupError) {
+                        console.error('Erro ao buscar autor do problema para notificação:', lookupError);
+                        return;
+                    }
+
+                    if (problem) {
+                        sendPushNotification(problem.user_id, {
+                            title: 'Atualização do seu problema',
+                            body: `"${problem.description}" agora está: ${status}.`,
+                            url: `/issues/${id}`
+                        });
+                    }
+                }
+            );
 
             return res.status(200).json({
                 message: 'Status atualizado com sucesso'

@@ -7,7 +7,7 @@ import {
     getProblemById,
     updateProblemStatus,
     deleteProblem
-} from './controllers/problemController';
+} from '../controllers/problemController';
 
 import { authenticateToken } from '../middleware/authMiddleware';
 
