@@ -1,11 +1,16 @@
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 
 // Rotas
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import categoryRoutes from './routes/categoryRoutes';
+import problemRoutes from './routes/problemRoutes';
+
+// Controllers
+import { getMyProblems } from './controllers/problemController';
 
 // Middleware de autenticação
 import { authenticateToken } from './middleware/authMiddleware';
@@ -16,6 +21,12 @@ const PORT = 3000;
 // Middlewares globais
 app.use(cors());
 app.use(bodyParser.json());
+
+// Arquivos enviados (fotos dos problemas)
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '../uploads'))
+);
 
 // Rota inicial (teste rápido)
 app.get('/', (req: Request, res: Response) => {
@@ -28,6 +39,16 @@ app.use('/auth', authRoutes);
 // Rotas protegidas
 app.use('/users', authenticateToken, userRoutes);
 app.use('/categories', authenticateToken, categoryRoutes);
+
+// Rotas de problemas urbanos
+app.use('/issues', problemRoutes);
+
+// Problemas do usuário logado
+app.get(
+  '/users/me/issues',
+  authenticateToken,
+  getMyProblems
+);
 
 // Tratamento de rota inexistente
 app.use((req: Request, res: Response) => {
